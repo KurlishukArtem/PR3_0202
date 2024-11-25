@@ -33,7 +33,7 @@ namespace Common
         //точки из которых состоит Змея
         public List<Point> Points = new List<Point>();
         //направление движения в котором двигается змея
-        public List<Direction> direction = Direction.Start;
+        public Direction direction = Direction.Start;
         public bool GameOver = false;   
     }
 }

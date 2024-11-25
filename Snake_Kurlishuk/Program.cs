@@ -53,6 +53,25 @@ namespace Snake_Kurlishuk
                 }
             }
         }
+
+        public static int AddSnake()
+        {
+            ViewModelGames viewModelGamesPlayer = new ViewModelGames();
+            //указываем стартовые координаты
+            viewModelGamesPlayer.SnakesPlayers = new Snakes()
+            {
+                Points = new List<Snakes.Point>()
+                {
+                    new Snakes.Point() { X = 30, Y = 10 },
+                    new Snakes.Point() { X = 20, Y = 10 },
+                    new Snakes.Point() { X = 10, Y = 10 },
+                },
+                //направление змеи
+                direction = Snakes.Direction.Start
+            };
+            //создаем рандомную точку на карте
+            viewModelGamesPlayer.Points = new Snakes.Point(new Random().Next(10, 783)), new Random().Next(10,410));
+            //добавляем змею в общий список всех змей
         public static void Reciver()
         {
             UdpClient receivingUdpClient = new UdpClient(localPort);
@@ -99,30 +118,30 @@ namespace Snake_Kurlishuk
                         // находим ID игрока, ища его в списке по IP адрессу и порту
                         IdPlayer = remoteIPAddress.FindIndex(x => x.IPAddress == viewModelUserSettings.IPAddress
                         && x.Port == viewModelUserSettings.Port);
-                        //if (IdPlayer != -1)
-                        //{
-                        //    if (dataMessage[0] == "Up" &&
-                        //        viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Down)
-                        //        viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Up;
-                        //}
-                        //if (IdPlayer != -1)
-                        //{
-                        //    if (dataMessage[0] == "Down" &&
-                        //        viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Up)
-                        //        viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Down;
-                        //}
-                        //if (IdPlayer != -1)
-                        //{
-                        //    if (dataMessage[0] == "Left" &&
-                        //        viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Right)
-                        //        viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Left;
-                        //}
-                        //if (IdPlayer != -1)
-                        //{
-                        //    if (dataMessage[0] == "Right" &&
-                        //        viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Left)
-                        //        viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Right;
-                        //}
+                        if (IdPlayer != -1)
+                        {
+                            if (dataMessage[0] == "Up" &&
+                                viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Down)
+                                viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Up;
+                        }
+                        if (IdPlayer != -1)
+                        {
+                            if (dataMessage[0] == "Down" &&
+                                viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Up)
+                                viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Down;
+                        }
+                        if (IdPlayer != -1)
+                        {
+                            if (dataMessage[0] == "Left" &&
+                                viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Right)
+                                viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Left;
+                        }
+                        if (IdPlayer != -1)
+                        {
+                            if (dataMessage[0] == "Right" &&
+                                viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Left)
+                                viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Right;
+                        }
                     }
                 }
             }
