@@ -11,6 +11,7 @@ using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
 using System.Threading;
 using Microsoft.Win32;
+using System.IO;
 
 namespace Snake_Kurlishuk
 {
@@ -300,6 +301,35 @@ namespace Snake_Kurlishuk
                 }
             }
             Send();
+        }
+        public static void SaveLeaders()
+        {
+            string json = JsonConvert.SerializeObject(Leaders);
+            //записываем в файл
+            StreamWriter SW = new StreamWriter("./leaders.txt");
+            SW.WriteLine(json);
+            SW.Close();
+        }
+        public static void LoadLeaders()
+        {
+            //проверяем есть ли файл
+            if (File.Exists("./leaders.txt"))
+            {
+                // Открываем файл 
+                StreamReader SR = new StreamReader("./leaders.txt");
+                //читаем первую строку
+                string json = SR.ReadLine();
+                //закрываем файл
+                SR.Close();
+                // если есть что читать
+                if (!string.IsNullOrEmpty(json))
+                    Leaders = JsonConvert.DeserializeObject<List<Leaders>>(json);
+                else
+                    // возвращаем пустой результат
+                    Leaders = new List<Leaders>();
+            }
+            else
+                Leaders = new List<Leaders>();
         }
 
     }
