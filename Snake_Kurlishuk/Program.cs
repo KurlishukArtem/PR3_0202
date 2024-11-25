@@ -24,6 +24,22 @@ namespace Snake_Kurlishuk
         public static int MaxSpeed = 15;
         static void Main(string[] args)
         {
+            try
+            {
+                //Создаем поток для прослушки сообщений от клиентов
+                Thread tRec = new Thread(new ThreadStart(Reciver));
+                //Запускаем поток прослушивания
+                tRec.Start();
+                // Создаем таймер Для управления игрой
+                Thread tTime = new Thread(Timer);
+                tTime.Start();
+            }
+            catch (Exception ex)
+            { 
+                //Если что-то пошло не так, выводим сообщение о том что произошла АШИБКА
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Возникло исключение: " + ex.ToString() + "\n" + ex.Message);
+            }
         }
 
         private static void Send()
