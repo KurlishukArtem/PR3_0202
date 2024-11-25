@@ -9,6 +9,8 @@ using Common;
 using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json;
+using System.Threading;
+using Microsoft.Win32;
 
 namespace Snake_Kurlishuk
 {
@@ -154,6 +156,87 @@ namespace Snake_Kurlishuk
             //добавляем змею в общий список всех змей
             viewModelGames.Add(viewModelGamesPlayer);
             return viewModelGames.FindIndex(x => x == viewModelGamesPlayer);
+        }
+        public static void Timer()
+        {
+            while (true)
+            {
+                Thread.Sleep(100);
+
+                //получаем змей которых необходимо удалить
+                List<ViewModelGames> RemoteSnakes = viewModelGames.FindAll(x => x.SnakesPlayers.GameOver);
+                //если количество змей больше 0
+                if (RemoteSnakes.Count > 0)
+                {
+                    foreach (ViewModelGames DeadSnake in RemoteSnakes)
+                    {
+                        //говорим что отключаем игрока
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"Отключил пользователя: {remoteIPAddress.Find(x => x.IdSnake == DeadSnake.IdSnake).IdSnake}" +
+                            $": {remoteIPAddress.Find(x => x.IdSnake == DeadSnake.IdSnake).Port}");
+                        //Удаляем пользователя
+                        remoteIPAddress.RemoveAll(x => x.IdSnake == DeadSnake.IdSnake);
+
+                    }
+                    //удаляем змей которых надо удалить
+                    viewModelGames.RemoveAll(x => x.SnakesPlayers.GameOver);
+                }
+                //перебираем подключенных игроков
+                foreach (ViewModelUserSettings User in remoteIPAddress)
+                {
+                    Snakes Snake = viewModelGames.Find(x => x.IdSnake == User.IdSnake).SnakesPlayers;
+                    //прогоняем точки змеи через цикл от конца в начало
+                    for (int i = Snake.Points.Count - 1; i >= 0; i--)
+                    {
+                        if (i != 0)
+                        {
+                            //перемещаем точку на место предыдущей
+                            Snake.Points[i] = Snake.Points[i - 1];
+                        }
+                        else 
+                        {
+                            //получаем скорость змеи (поскольку радиус точки 10, начальная скорость 10 пунктов)
+                            int Speed = 10 + (int)Math.Round(Snake.Points.Count / 20f);
+                            //если скорость змеи выше максимальной
+                            if (Speed > MaxSpeed) Speed = MaxSpeed;
+                            //Если направление змеи влево
+                            if (Snake.direction == Snakes.Direction.Right)
+                            {
+                                //двигаем змею влево
+                                Snake.Points[i] = new Snakes.Point() { X = Snake.Points[i].X + Speed, Y = Snake.Points[i].Y };
+                            }
+                            else if (Snake.direction == Snakes.Direction.Down)
+                            {
+                                //двигаем змею влево
+                                Snake.Points[i] = new Snakes.Point() { X = Snake.Points[i].X , Y = Snake.Points[i].Y + Speed };
+                            }
+                            else if (Snake.direction == Snakes.Direction.Up)
+                            {
+                                //двигаем змею влево
+                                Snake.Points[i] = new Snakes.Point() { X = Snake.Points[i].X, Y = Snake.Points[i].Y - Speed};
+                            }
+                            else if (Snake.direction == Snakes.Direction.Left)
+                            {
+                                //двигаем змею влево
+                                Snake.Points[i] = new Snakes.Point() { X = Snake.Points[i].X - Speed, Y = Snake.Points[i].Y};
+                            }
+                        }
+                    }
+                    //Проверим змею на столкновение с препядствием
+                    // Если первая точка змеи вышла за координаты экрана по горизонтали
+                    if (Snake.Points[0].X <= 0 || Snake.Points[0].X >= 793)
+                    {
+                        //говорим что игра окончена
+                        Snake.GameOver = true;
+                    }
+                    else if (Snake.Points[0].Y <= 0 || Snake.Points[0].Y >= 420)
+                    { 
+                        //аналогично верхнему
+                        Snake.GameOver = true ;
+                    }
+
+                }
+            }
         }
 
     }
