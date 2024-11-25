@@ -54,24 +54,7 @@ namespace Snake_Kurlishuk
             }
         }
 
-        public static int AddSnake()
-        {
-            ViewModelGames viewModelGamesPlayer = new ViewModelGames();
-            //указываем стартовые координаты
-            viewModelGamesPlayer.SnakesPlayers = new Snakes()
-            {
-                Points = new List<Snakes.Point>()
-                {
-                    new Snakes.Point() { X = 30, Y = 10 },
-                    new Snakes.Point() { X = 20, Y = 10 },
-                    new Snakes.Point() { X = 10, Y = 10 },
-                },
-                //направление змеи
-                direction = Snakes.Direction.Start
-            };
-            //создаем рандомную точку на карте
-            viewModelGamesPlayer.Points = new Snakes.Point(new Random().Next(10, 783)), new Random().Next(10,410));
-            //добавляем змею в общий список всех змей
+        
         public static void Reciver()
         {
             UdpClient receivingUdpClient = new UdpClient(localPort);
@@ -149,6 +132,28 @@ namespace Snake_Kurlishuk
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Вознило исключение: " + ex.Message);
             }
+
+        }
+        public static int AddSnake()
+        {
+            ViewModelGames viewModelGamesPlayer = new ViewModelGames();
+            //указываем стартовые координаты
+            viewModelGamesPlayer.SnakesPlayers = new Snakes()
+            {
+                Points = new List<Snakes.Point>()
+                {
+                    new Snakes.Point() { X = 30, Y = 10 },
+                    new Snakes.Point() { X = 20, Y = 10 },
+                    new Snakes.Point() { X = 10, Y = 10 },
+                },
+                //направление змеи
+                direction = Snakes.Direction.Start
+            };
+            //создаем рандомную точку на карте
+            viewModelGamesPlayer.Points = new Snakes.Point(new Random().Next(10, 783), new Random().Next(10, 410));
+            //добавляем змею в общий список всех змей
+            viewModelGames.Add(viewModelGamesPlayer);
+            return viewModelGames.FindIndex(x => x == viewModelGamesPlayer);
         }
 
     }
