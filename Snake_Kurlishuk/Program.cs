@@ -33,7 +33,7 @@ namespace Snake_Kurlishuk
                     int.Parse(User.Port));
                 try
                 {
-                    byte[] bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeIObject(viewModelGames.Find(x => x.IdSnake == User.IdSnake)));
+                    byte[] bytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(viewModelGames.Find(x => x.IdSnake == User.IdSnake)));
 
                     //отпавляем данные
                     sender.Send(bytes, bytes.Length, endPoint);
@@ -99,30 +99,30 @@ namespace Snake_Kurlishuk
                         // находим ID игрока, ища его в списке по IP адрессу и порту
                         IdPlayer = remoteIPAddress.FindIndex(x => x.IPAddress == viewModelUserSettings.IPAddress
                         && x.Port == viewModelUserSettings.Port);
-                        if (IdPlayer != -1)
-                        {
-                            if (dataMessage[0] == "Up" &&
-                                viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Down)
-                                viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Up;
-                        }
-                        if (IdPlayer != -1)
-                        {
-                            if (dataMessage[0] == "Down" &&
-                                viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Up)
-                                viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Down;
-                        }
-                        if (IdPlayer != -1)
-                        {
-                            if (dataMessage[0] == "Left" &&
-                                viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Right)
-                                viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Left;
-                        }
-                        if (IdPlayer != -1)
-                        {
-                            if (dataMessage[0] == "Right" &&
-                                viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Left)
-                                viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Right;
-                        }
+                        //if (IdPlayer != -1)
+                        //{
+                        //    if (dataMessage[0] == "Up" &&
+                        //        viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Down)
+                        //        viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Up;
+                        //}
+                        //if (IdPlayer != -1)
+                        //{
+                        //    if (dataMessage[0] == "Down" &&
+                        //        viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Up)
+                        //        viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Down;
+                        //}
+                        //if (IdPlayer != -1)
+                        //{
+                        //    if (dataMessage[0] == "Left" &&
+                        //        viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Right)
+                        //        viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Left;
+                        //}
+                        //if (IdPlayer != -1)
+                        //{
+                        //    if (dataMessage[0] == "Right" &&
+                        //        viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Left)
+                        //        viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Right;
+                        //}
                     }
                 }
             }
