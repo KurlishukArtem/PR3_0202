@@ -234,9 +234,72 @@ namespace Snake_Kurlishuk
                         //аналогично верхнему
                         Snake.GameOver = true ;
                     }
+                   //проверяем не столкнулись ли змеи между собой 
+                   if (Snake.direction != Snakes.Direction.Start)
+                   {
+                        //прогоняем все точки кроме первой 
+                        for (int i = 1; i< Snake.Points.Count; i++)
+                        {
+                            //Если первая точка находится на координатах последующией по горизонтали 
+                            if (Snake.Points[0].X >= Snake.Points[i].X - 1 && Snake.Points[0].X <= Snake.Points[i].X + 1)
+                            {
+                                if (Snake.Points[0].Y >= Snake.Points[i].Y - 1 && Snake.Points[0].Y <= Snake.Points[i].Y + 1)
+                                {
+                                    Snake.GameOver = true;
+                                    break;
+                                }
+                            }
+                        }
+                   }
+                   //Проверяем что если первая точка змеи игрока находится в координатах яблока по горизонтали
+                   if (Snake.Points[0].X >= viewModelGames.Find(x=>x.IdSnake==User.IdSnake).Points.X - 15 &&
+                        Snake.Points[0].X <= viewModelGames.Find(x=>x.IdSnake==User.IdSnake).Points.X + 15)
+                   {
+                        if (Snake.Points[0].Y >= viewModelGames.Find(x => x.IdSnake == User.IdSnake).Points.Y - 15 &&
+                        Snake.Points[0].Y <= viewModelGames.Find(x => x.IdSnake == User.IdSnake).Points.Y + 15)
+                        {
+                            viewModelGames.Find(x => x.IdSnake == User.IdSnake).Points = new Snakes.Point(
+                                new Random().Next(10, 783),
+                                new Random().Next(10, 410));
 
+                            //добавляем змее новую точку на координатах последней
+                            Snake.Points.Add(new Snakes.Point()
+                            {
+                                X = Snake.Points[Snake.Points.Count - 1].X,
+                                Y = Snake.Points[Snake.Points.Count - 1].Y
+                            });
+
+                            // загружаем таблицу
+                            LoadLeaders();
+                            // добавляем нас в таблицу
+                            Leaders.Add(new Leaders()
+                            {
+                                Name = User.Name,
+                                Points = Snake.Points.Count - 3
+                            });
+                            // сортируем таблицу по двум значениям сначала по ко-ву точек затем  по наименованию
+                            Leaders = Leaders.OrderByDescending(x => x.Points).ThenBy(x => x.Name).ToList();
+                            //Ищем себя в списке и записываем в модель змеи
+                            viewModelGames.Find(x => x.IdSnake == User.IdSnake).Top =
+                                Leaders.FindIndex(x => x.Points == Snake.Points.Count - 3 && x.Name == User.Name) + 1;
+                        }
+                   }
+                    //Если игра для змеи закончена 
+                    if (Snake.GameOver)
+                    {
+                        //загружаем таблицу
+                        LoadLeaders();
+                        //добавляем нас в таблицу 
+                        Leaders.Add(new Leaders()
+                        {
+                            Name = User.Name,
+                            Points = Snake.Points.Count - 3
+                        });
+                        SaveLeaders();
+                    }
                 }
             }
+            Send();
         }
 
     }
