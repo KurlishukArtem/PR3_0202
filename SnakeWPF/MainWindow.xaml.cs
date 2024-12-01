@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using Common;
 using System.Windows.Media.Animation;
 using Newtonsoft.Json;
+using System.Security.Cryptography.X509Certificates;
 
 namespace SnakeWPF
 {
@@ -126,6 +127,24 @@ namespace SnakeWPF
             catch (Exception ex)
             {
                 Console.WriteLine("возникло исключение: " + ex.ToString() + "\n " + ex.Message);
+            }
+        }
+        public static void Send()
+        {
+            //Создаем UpdClient
+            UdpClient sender = new UdpClient();
+            //создам endPoint по информации об удаленном клиентк 
+            IPEndPoint endPoint = new IPEndPoint(remoteIPAddress, remotePort);
+            try
+            {
+                //Преобразует данные в массив байтов
+                byte[] bytes = Encoding.UTF8.GetBytes(datagram);
+                sender.Send(bytes, bytes.Length, endPoint);
+            }
+            catch (Exception ex) { Console.WriteLine("Возникло исключение: " + ex.ToString() + "\n " + ex.Message); }
+            finally
+            {
+                sender.Close();
             }
         }
     }
