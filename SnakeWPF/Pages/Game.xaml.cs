@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Common;
+using DocumentFormat.OpenXml.Vml;
 
 
 namespace SnakeWPF.Pages
@@ -96,15 +97,15 @@ namespace SnakeWPF.Pages
                     else
                         Color = new SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 0, 198, 19));
                     //рисуем точку
-                    Ellipse ellipse = new Ellipse();
+                    Ellipse ellipse = new Ellipse()
                     {
-                        Width = 20;
-                        Height = 20;
+                        Width = 20,
+                        Height = 20,
                         Margin = new Thickness(SnakePoint.X - 10, SnakePoint.Y - 10, 0, 0),
                         //Цвет точки
-                        Fill = Color;
+                        Fill = Color,
                         // обводка
-                        Stroke = Brushes.Black;
+                        Stroke = Brushes.Black
                     };
                     canvas.Children.Add(ellipse);
                 }
@@ -113,10 +114,10 @@ namespace SnakeWPF.Pages
                 ImageBrush myBrush = new ImageBrush();
                 myBrush.ImageSource = new BitmapImage(new Uri($"pack://application:,,,/Image/Apple.png"));
                 //яблоко на UI
-                Ellipse point = new Ellipse();
+                Ellipse point = new Ellipse()
                 {
-                    Width = 40;
-                    Height = 40;
+                    Width = 40,
+                    Height = 40,
                     Margin = new Thickness(MainWindow.mainWindow.ViewModelGames.Points.X - 20,
                         MainWindow.mainWindow.ViewModelGames.Points.Y - 20,0,0),
                     Fill = myBrush

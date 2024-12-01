@@ -88,7 +88,7 @@ namespace SnakeWPF
         {
             //создаем клиент для обслуживания
             receivingUdpClient = new UdpClient(int.Parse(ViewModelUserSettings.Port));
-            IPEndPoint RemoteIpPoint = null;
+            IPEndPoint RemoteIpEndPoint = null;
 
             try
             {
