@@ -132,7 +132,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Image\" />
+    <Resource Include="Image\background_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\backgroung.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Image\background_3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
