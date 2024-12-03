@@ -27,7 +27,7 @@ namespace Common
             Right, 
             Up,
             Down,
-            Start  
+            Start
         }
 
         //точки из которых состоит Змея

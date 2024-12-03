@@ -19,6 +19,7 @@ using Common;
 using System.Windows.Media.Animation;
 using Newtonsoft.Json;
 using System.Security.Cryptography.X509Certificates;
+using System.Diagnostics;
 
 namespace SnakeWPF
 {
@@ -96,7 +97,8 @@ namespace SnakeWPF
                 while (true)
                 {
                     //Ожидание дейтаграммы
-                    byte[] receiveBytes = receivingUdpClient.Receive(ref RemoteIpEndPoint);
+                    byte[] receiveBytes = receivingUdpClient.Receive(
+                        ref RemoteIpEndPoint);
                     //преобразуем и отображаем данные
                     string returnData = Encoding.UTF8.GetString(receiveBytes);
                     //если у нас не существует данных от сервера
@@ -128,7 +130,7 @@ namespace SnakeWPF
             }
             catch (Exception ex)
             {
-                Console.WriteLine("возникло исключение: " + ex.ToString() + "\n " + ex.Message);
+               Debug.WriteLine("возникло исключение: " + ex.ToString() + "\n " + ex.Message);
             }
         }
         public static void Send(string datagram)
@@ -143,7 +145,7 @@ namespace SnakeWPF
                 byte[] bytes = Encoding.UTF8.GetBytes(datagram);
                 sender.Send(bytes, bytes.Length, endPoint);
             }
-            catch (Exception ex) { Console.WriteLine("Возникло исключение: " + ex.ToString() + "\n " + ex.Message); }
+            catch (Exception ex) { Debug.WriteLine("Возникло исключение: " + ex.ToString() + "\n " + ex.Message); }
             finally
             {
                 sender.Close();
@@ -154,7 +156,7 @@ namespace SnakeWPF
             //проверяем что у игрока есть ip адресс, порт, данные о змее, и что она не проиграла
             if (!string.IsNullOrEmpty(ViewModelUserSettings.IPAddress) &&
                 !string.IsNullOrEmpty(ViewModelUserSettings.Port) &&
-                (ViewModelGames != null && !ViewModelGames.SnakesPlayers.GameOver))
+                ViewModelGames != null && !ViewModelGames.SnakesPlayers.GameOver)
             {
                 if (e.Key == Key.Up)
                 {

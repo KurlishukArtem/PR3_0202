@@ -125,25 +125,23 @@ namespace Snake_Kurlishuk
                             if (dataMessage[0] == "Up" &&
                                 viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Down)
                                 viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Up;
-                        }
-                        if (IdPlayer != -1)
-                        {
-                            if (dataMessage[0] == "Down" &&
+
+
+                            else if (dataMessage[0] == "Down" &&
                                 viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Up)
                                 viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Down;
-                        }
-                        if (IdPlayer != -1)
-                        {
-                            if (dataMessage[0] == "Left" &&
+
+
+                            else if (dataMessage[0] == "Left" &&
                                 viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Right)
                                 viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Left;
-                        }
-                        if (IdPlayer != -1)
-                        {
-                            if (dataMessage[0] == "Right" &&
+
+
+                            else if (dataMessage[0] == "Right" &&
                                 viewModelGames[IdPlayer].SnakesPlayers.direction != Snakes.Direction.Left)
                                 viewModelGames[IdPlayer].SnakesPlayers.direction = Snakes.Direction.Right;
                         }
+                        
                     }
                 }
             }
@@ -315,8 +313,9 @@ namespace Snake_Kurlishuk
                         SaveLeaders();
                     }
                 }
+                Send();
             }
-            Send();
+           
         }
         public static void SaveLeaders()
         {
